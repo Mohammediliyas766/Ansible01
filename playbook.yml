@@ -1,0 +1,17 @@
+- hosts: windows
+  tasks:
+    - name: Copy Seq Installer
+      win_copy:
+        src: files/Seq-2023.1.9229.msi
+        dest: C:\temp\Seq-2023.1.9229.msi
+
+    - name: Run Seq Installer
+      win_command: C:\temp\Seq-2023.1.9229.msi /quiet /install
+
+    - name: Open firewall port for Seq
+      win_firewall_rule:
+        name: "Open Seq Port"
+        localport: 5341
+        protocol: TCP
+        action: allow
+        direction: in
